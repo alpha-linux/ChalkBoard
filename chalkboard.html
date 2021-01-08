@@ -12,9 +12,19 @@
     <script src="chalkdraw.js"></script>
     <script src="screenanimation.js"></script>
     <link rel="stylesheet" href="chalkboardstyle.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <canvas id="sketcharea" resize></canvas>
     <div id="toolbar"></div>
+    <div id="footer">
+      <form id="clicontainer">
+        <input type="text" id="cli" spellcheck="false" autocomplete="off" />
+      </form>
+    </div>
   </body>
 </html>
