@@ -22,7 +22,7 @@
     <canvas id="sketcharea" resize></canvas>
     <div id="toolbar"></div>
     <div id="footer">
-      <form id="clicontainer">
+      <form id="clicontainer" onkeydown="return event.key != 'Enter';">
         <input type="text" id="cli" spellcheck="false" autocomplete="off" />
       </form>
     </div>

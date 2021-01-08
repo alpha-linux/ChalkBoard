@@ -2,7 +2,7 @@
 
 var modifiers = {
   markerWidth: 5,
-  eraseWidth: 100,
+  eraseWidth: 80,
   markerColor: "Gold",
   correctionVal: 8,
 };
