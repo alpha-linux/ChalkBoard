@@ -14,3 +14,15 @@ canvas[resize] {
 #sketcharea {
   background-color: rgb(22, 22, 22);
 }
+
+#toolbar {
+  position: fixed;
+  height: 60%;
+  background-color: rgba(255, 255, 255, 0.623);
+  left: 7px;
+  width: 0;
+  z-index: 1;
+  bottom: 21%;
+  border-radius: 18px;
+  overflow: hidden;
+}

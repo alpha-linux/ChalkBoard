@@ -1,21 +1,27 @@
 //Author Ishan Banerjee
-window.onload = function () {
+
+var modifiers = {
+  markerWidth: 5,
+  eraseWidth: 100,
+  markerColor: "Gold",
+  correctionVal: 8,
+};
+
+$( document ).ready(function() {
     paper.install(window);
     paper.setup(document.getElementById("sketcharea"));
 
     //This class modifies the features of pen and eraser.
-    var modifiers = {
-      markerWidth: 5,
-      eraseWidth: 50,
-      markerColor: "#ffffff",
-      correctionVal: 8,
-    };
+
 
     //Layer object instantiated for the background pattern.
     var bottomLayer = new Layer();
 
     //Layer object instantiated for drawing and erasing.
     var topLayer = new Layer();
+
+    // var uiLayer = new Layer
+    // topLayer.activate();
 
     //A Tool of object of the class paper.js, used for drawing 
     var markerTool = new Tool();
@@ -38,6 +44,7 @@ window.onload = function () {
 
     markerTool.onMouseUp = function (event) {
       drawPath.simplify(modifiers.correctionVal);
+      drawPath.selected = true;
     };
 
     var eraserTool = new Tool();
@@ -50,7 +57,7 @@ window.onload = function () {
             strokeWidth: modifiers.eraseWidth * view.pixelRatio,
             strokeCap: "round",    
             strokeJoin: "round",
-            strokeColor: "black"
+            strokeColor: "rgb(22, 22, 22)"
         });
 
         tmpGroup = new Group({
@@ -127,7 +134,6 @@ window.onload = function () {
     
           topLayer.addChildren(tmpGroup.removeChildren());
           mask.remove();
-          
     };
     $(document).keypress(function (event){
         if(event.key == "e") 
@@ -136,5 +142,4 @@ window.onload = function () {
             markerTool.activate();
         }
     });
-
-  };
+});
