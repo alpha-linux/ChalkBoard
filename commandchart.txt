@@ -1,0 +1,8 @@
+#Autor Ishan Banerjee
+
+SECTION COMMAND '/'
+
+1. clear : The clear command erases all the drawing present in the 
+            sketching area
+
+2. ts=<NUMBER> "Range 0.1 - "

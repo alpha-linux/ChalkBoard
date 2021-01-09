@@ -1,6 +1,5 @@
 var clickrecord = false;
 var spacelock = false;
-var command = "";
 
 $(document).keydown(function(event) {
     if (event.key == " " && clickrecord == false && spacelock==false) {
@@ -18,6 +17,8 @@ $(document).keydown(function(event) {
     }
     if(event.key == "Escape")
       closeCommandLine();
+    if(event.key == "ArrowUp" || event.key == "ArrowDown")
+      historyRecall(event);
   });
   
   $(document).on("keydown", ":input:not(textarea)", function(event){
@@ -43,13 +44,37 @@ function openCommandLine(){
 
 function closeCommandLine(){
   document.getElementById('footer').style.height = "0";
-  // document.getElementById('sketcharea').focus();
-  document.getElementById('cli').value = "";
+  updatePrompt("");
   document.getElementById('cli').blur();
   spacelock = false;
 }
 
 function commandexecute(){
-  command = document.getElementById("cli").value;
-  document.getElementById('cli').value = "";
+  commandStack.push(document.getElementById("cli").value);
+  direction = commandStack.length;
+  updatePrompt("");
+
+}
+
+function historyRecall(event){
+  if(event.key == "ArrowUp"){
+    if(--direction >=0)
+    updatePrompt(commandStack[direction])
+    else
+      ++direction
+  }
+  if(event.key == "ArrowDown"){
+    if(direction == 0)
+      updatePrompt(commandStack[direction++]);
+
+    else if(direction < commandStack.length)
+      updatePrompt(commandStack[direction++]);
+    else
+      updatePrompt("");
+  } 
+
+}
+
+function updatePrompt(command){
+  document.getElementById('cli').value = command;
 }

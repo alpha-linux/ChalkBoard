@@ -1,9 +1,9 @@
 //Author Ishan Banerjee
 
 var modifiers = {
-  markerWidth: 5,
+  markerWidth: 0.05,
   eraseWidth: 80,
-  markerColor: "Gold",
+  markerColor: "White",
   correctionVal: 8,
 };
 
@@ -44,7 +44,7 @@ $( document ).ready(function() {
 
     markerTool.onMouseUp = function (event) {
       drawPath.simplify(modifiers.correctionVal);
-      drawPath.selected = true;
+      // drawPath.selected = true;
     };
 
     var eraserTool = new Tool();
