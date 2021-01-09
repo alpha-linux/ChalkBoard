@@ -2,7 +2,21 @@
 
 SECTION COMMAND '/'
 
-1. clear : The clear command erases all the drawing present in the 
-            sketching area
+clear : The clear command erases all the drawing present in the 
+           sketching area.
 
-2. ts=<NUMBER> "Range 0.1 - "
+tool=<TYPE>
+                -> marker
+                -> pencil
+                -> chalk
+                -> eraser
+                -> compass
+                -> protractor
+                -> ruler
+
+ms=<NUMBER> [Range: 0.5 - 10] : Adjusts the marker's tip size
+
+es=<NUMBER> [Range: 5 - 100] : Adjusts the eraser size
+
+hs=<NUMBER> [Range: ] : Adjusts the highlighter's tip size.
+

@@ -1,8 +1,8 @@
 //Author Ishan Banerjee
 
 var modifiers = {
-  markerWidth: 0.05,
-  eraseWidth: 80,
+  markerWidth: 0.5,
+  eraseWidth: 5,
   markerColor: "White",
   correctionVal: 8,
 };
@@ -57,7 +57,7 @@ $( document ).ready(function() {
             strokeWidth: modifiers.eraseWidth * view.pixelRatio,
             strokeCap: "round",    
             strokeJoin: "round",
-            strokeColor: "rgb(22, 22, 22)"
+            strokeColor: "white"
         });
 
         tmpGroup = new Group({
