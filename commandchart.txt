@@ -2,21 +2,47 @@
 
 SECTION COMMAND '/'
 
+help : Command to provide help to the user
+
 clear : The clear command erases all the drawing present in the 
            sketching area.
 
 tool=<TYPE>
-                -> marker
-                -> pencil
+                -> marker 
                 -> chalk
                 -> eraser
                 -> compass
                 -> protractor
                 -> ruler
+                -> selection
+
+        : The tool command lets the user choose a perticualar tool to be 
+          used in the sketching area.
 
 ms=<NUMBER> [Range: 0.5 - 10] : Adjusts the marker's tip size
 
+mc=<COLOR> [HEX,RGB,COLOR NAME,HSL] : Changes the markers color
+
+
 es=<NUMBER> [Range: 5 - 100] : Adjusts the eraser size
+
 
 hs=<NUMBER> [Range: ] : Adjusts the highlighter's tip size.
 
+hc=<COLOR> 
+            -> yellow
+            -> pink
+            -> orange
+            -> green
+            -> blue
+            -> grey
+
+        : Changes the highlighter color. 
+
+cc=<COLOR>
+            ->yellow
+            ->pink
+            ->white
+            ->green
+            ->purple
+            ->orange

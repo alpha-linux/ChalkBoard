@@ -1,11 +1,30 @@
 //Author Ishan Banerjee
 
 var modifiers = {
-  markerWidth: 0.5,
-  eraseWidth: 5,
-  markerColor: "White",
   correctionVal: 8,
 };
+
+var markerMod = {
+  markerWidth: 5,
+  markerColor: "White",
+  markerCap: "round",
+  markerJoin: "round",
+}
+
+var eraserMod = {
+  eraserWidth: 80,
+  eraserColor: "white",
+  eraserCap: "round",
+  eraserJoin: "round",
+}
+
+var highlighter = {
+  highlighterWidht: 8,
+  highlighterColor: "Yellow",
+  highlighterCap: "square",
+  highlighterJoin: "milter",
+}
+
 
 $( document ).ready(function() {
     paper.install(window);
@@ -31,10 +50,10 @@ $( document ).ready(function() {
     //Drawing section code
     markerTool.onMouseDown = function (event) {
       drawPath = new Path({
-        strokeColor: modifiers.markerColor,
-        strokeWidth: modifiers.markerWidth * view.pixelRatio,
-        strokeCap: "round",
-        strokeJoin: "round",
+        strokeColor: markerMod.markerColor,
+        strokeWidth: markerMod.markerWidth * view.pixelRatio,
+        strokeCap: markerMod.markerCap,
+        strokeJoin: markerMod.markerJoin,
       });
     };
 
@@ -44,7 +63,7 @@ $( document ).ready(function() {
 
     markerTool.onMouseUp = function (event) {
       drawPath.simplify(modifiers.correctionVal);
-      // drawPath.selected = true;
+      drawPath.selected = true;
     };
 
     var eraserTool = new Tool();
@@ -54,10 +73,10 @@ $( document ).ready(function() {
     //Erasing section code
     eraserTool.onMouseDown = function(event){
         eraserPath = new Path({
-            strokeWidth: modifiers.eraseWidth * view.pixelRatio,
-            strokeCap: "round",    
-            strokeJoin: "round",
-            strokeColor: "white"
+            strokeWidth: eraserMod.eraserWidth * view.pixelRatio,
+            strokeCap: eraserMod.eraserCap,    
+            strokeJoin: eraserMod.eraserJoin,
+            strokeColor: eraserMod.eraserColor,
         });
 
         tmpGroup = new Group({
@@ -77,7 +96,7 @@ $( document ).ready(function() {
     };
 
     eraserTool.onMouseUp = function (event){
-        var eraserRadius = (modifiers.eraseWidth * view.pixelRatio) / 2;
+        var eraserRadius = (eraserMod.eraserWidth * view.pixelRatio) / 2;
 
         var outerPath = OffsetUtils.offsetPath(eraserPath, eraserRadius);
         var innerPath = OffsetUtils.offsetPath(eraserPath, -eraserRadius);
@@ -136,10 +155,13 @@ $( document ).ready(function() {
           mask.remove();
     };
     $(document).keypress(function (event){
-        if(event.key == "e") 
-            eraserTool.activate();
+        if(event.key == "e") {
+          console.log("Eraser Active")
+          eraserTool.activate();
+        }
         else if(event.key == "d") {
             markerTool.activate();
         }
     });
 });
+
