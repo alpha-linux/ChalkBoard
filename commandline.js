@@ -23,7 +23,8 @@ function processCommand()
             break;
         case "/hc": highColor()
             break;
-        default: console.log("Error")
+        case "/sl": 
+        default: smoothAdjust();
     }
 }
 
@@ -110,4 +111,13 @@ function highColor(){
             break;
         default:
     }
+}
+
+function smoothAdjust()
+{
+    option = parseInt(option)
+    if(option >=0 && option <= 20)
+        modifiers.correctionVal = option;
+    else
+        console.log("ERROR")
 }

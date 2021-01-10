@@ -65,7 +65,8 @@ $( document ).ready(function() {
     };
 
     sketchTool.onMouseUp = function (event) {
-      drawPath.simplify(modifiers.correctionVal);
+      if(toolSelect == "marker")
+          drawPath.simplify(modifiers.correctionVal);
       // drawPath.selected = true; //Shows the physical path of the line. Used for debug purpose. 
     };
 
