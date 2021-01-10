@@ -1,7 +1,7 @@
 var clickrecord = false;
 var spacelock = false;
-
-$(document).keydown(function(event) {
+var command="", option="", commandOption="";
+  $(document).keydown(function(event) {
     if (event.key == " " && clickrecord == false && spacelock==false) {
         openToolBar();
         clickrecord = true;
@@ -52,6 +52,13 @@ function closeCommandLine(){
 function commandexecute(){
   commandStack.push(document.getElementById("cli").value);
   direction = commandStack.length;
+  if(commandStack[direction -1].includes("=")){
+    commandOption = commandStack[direction - 1].split("=");
+    command = commandOption[0];
+    option = commandOption[1];
+  }else
+    command = commandStack[direction -1];
+  processCommand();
   updatePrompt("");
 
 }

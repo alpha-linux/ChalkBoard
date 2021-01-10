@@ -2,50 +2,56 @@
 
 var commandStack = [];
 var direction = 0;
+var toolSelected="";
 
-processCommand(command)
+function processCommand()
 {
     switch(command){
-        case "help": console.log("Help")
+        case "/help": console.log("Help")
             break;
-        case "clear": console.log("Clear")
+        case "/clear":  clearCanvas();
             break;
-        case "tool": console.log("Tool")
+        case "/tool": console.log("Tool")
             break;
-        case "ms": marker(command);
+        case "/ms": marker(); 
             break;
-        case "mc": marker(command);
+        case "/mc": marker();
             break;
-        case "es": eraser();
+        case "/es": eraser();
             break;
-        case "hs":
+        case "/hs": console.log("HS");
             break;
-        case "hc":
+        case "/hc": console.log("HC");
             break;
-        case "cc":
+        case "/cc": console.log("CC");
             break;
-        default:
+        default: console.log("Error")
     }
+}
+
+//This fucntion clears the sketch area of all the markings
+function clearCanvas(){
+    topLayer.removeChildren();
 }
 
 //The marker function adjusts the properties (marker size, color, etc.) 
 // associated with the marker tool. 
-function marker(command){
-    let commandOption = commandStack[direction - 1].split("=")
-    if(command == "ms"){
-        let option = parseFloat(commandOption[1]);
+function marker(){
+    if(command == "/ms"){
+        option = parseFloat(option);
         if(option >= 0.5 && option <= 10)
-            modifiers.markerWidth = option;
+            markerMod.markerWidth = option;
         else
-            updatePrompt("ERROR: Invalid option for ms command [RANGE 0.5 - 10]")
+            console.log("Error in range");
     }else
-        modifiers.markerColor = commandOption[1];
+        markerMod.markerColor = option;
 }
 
 //The eraser function adjusts the the size of the eraser
 function eraser(){
-    let commandOption = commandStack[direction - 1].split("=")
-    let option = parseInt(commandOption[1]);
+    option = parseInt(option);
     if(option >=5 && option <= 10)
         modifiers.eraseWidth = option;
+    else
+        console.log("Error in range")
 }

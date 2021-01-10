@@ -1,5 +1,6 @@
 //Author Ishan Banerjee
 
+var topLayer
 var modifiers = {
   correctionVal: 8,
 };
@@ -25,23 +26,13 @@ var highlighter = {
   highlighterJoin: "milter",
 }
 
-
 $( document ).ready(function() {
-    paper.install(window);
-    paper.setup(document.getElementById("sketcharea"));
-
-    //This class modifies the features of pen and eraser.
-
-
-    //Layer object instantiated for the background pattern.
-    var bottomLayer = new Layer();
+  paper.install(window);
+  paper.setup(document.getElementById("sketcharea"));
 
     //Layer object instantiated for drawing and erasing.
-    var topLayer = new Layer();
-
-    // var uiLayer = new Layer
-    // topLayer.activate();
-
+    topLayer = new Layer();
+    
     //A Tool of object of the class paper.js, used for drawing 
     var markerTool = new Tool();
     markerTool.minDistance = 5;
