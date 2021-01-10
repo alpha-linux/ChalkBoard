@@ -1,4 +1,4 @@
-#Autor Ishan Banerjee
+#Author Ishan Banerjee
 
 SECTION COMMAND '/'
 
@@ -9,7 +9,7 @@ clear : The clear command erases all the drawing present in the
 
 tool=<TYPE>
                 -> marker 
-                -> chalk
+                -> highlighter
                 -> eraser
                 -> compass
                 -> protractor
@@ -39,10 +39,4 @@ hc=<COLOR>
 
         : Changes the highlighter color. 
 
-cc=<COLOR>
-            ->yellow
-            ->pink
-            ->white
-            ->green
-            ->purple
-            ->orange
+sl=<NUMBER> [Range: 0 - 20] : Adjusts the line smoothness value

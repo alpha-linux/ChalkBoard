@@ -1,6 +1,8 @@
 //Author Ishan Banerjee
 
 var topLayer
+var eraserTool;
+var sketchTool;
 var modifiers = {
   correctionVal: 8,
 };
@@ -19,9 +21,9 @@ var eraserMod = {
   eraserJoin: "round",
 }
 
-var highlighter = {
-  highlighterWidht: 8,
-  highlighterColor: "Yellow",
+var highlighterMod = {
+  highlighterWidth: 25,
+  highlighterColor: "rgba(255,255,0,0.4)",
   highlighterCap: "square",
   highlighterJoin: "milter",
 }
@@ -34,30 +36,40 @@ $( document ).ready(function() {
     topLayer = new Layer();
     
     //A Tool of object of the class paper.js, used for drawing 
-    var markerTool = new Tool();
-    markerTool.minDistance = 5;
-    markerTool.activate();
+    sketchTool = new Tool();
+    sketchTool.minDistance = 5;
+    sketchTool.activate();
 
     //Drawing section code
-    markerTool.onMouseDown = function (event) {
-      drawPath = new Path({
-        strokeColor: markerMod.markerColor,
-        strokeWidth: markerMod.markerWidth * view.pixelRatio,
-        strokeCap: markerMod.markerCap,
-        strokeJoin: markerMod.markerJoin,
-      });
+    sketchTool.onMouseDown = function (event) {
+      if(toolSelected == "marker"){
+        drawPath = new Path({
+          strokeColor: markerMod.markerColor,
+          strokeWidth: markerMod.markerWidth * view.pixelRatio,
+          strokeCap: markerMod.markerCap,
+          strokeJoin: markerMod.markerJoin,
+        });
+      }else if(toolSelected == "high"){
+        drawPath = new Path({
+          strokeWidth: highlighterMod.highlighterWidth,
+          strokeColor: highlighterMod.highlighterColor,
+          strokeCap: highlighterMod.highlighterCap,
+          storkeJoin: highlighterMod.highlighterJoin,
+        });
+      }
+   
     };
 
-    markerTool.onMouseDrag = function (event) {
+    sketchTool.onMouseDrag = function (event) {
       drawPath.add(event.point);
     };
 
-    markerTool.onMouseUp = function (event) {
+    sketchTool.onMouseUp = function (event) {
       drawPath.simplify(modifiers.correctionVal);
-      drawPath.selected = true;
+      // drawPath.selected = true; //Shows the physical path of the line. Used for debug purpose. 
     };
 
-    var eraserTool = new Tool();
+    eraserTool = new Tool();
     eraserTool.minDistance = 10;
     var eraserPath, tmpGroup, mask;
 
@@ -147,11 +159,10 @@ $( document ).ready(function() {
     };
     $(document).keypress(function (event){
         if(event.key == "e") {
-          console.log("Eraser Active")
           eraserTool.activate();
         }
         else if(event.key == "d") {
-            markerTool.activate();
+          sketchTool.activate();
         }
     });
 });
