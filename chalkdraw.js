@@ -1,6 +1,7 @@
 //Author Ishan Banerjee
 
-var topLayer
+var bottomLayer;
+var topLayer;
 var eraserTool;
 var sketchTool;
 var modifiers = {
@@ -8,7 +9,7 @@ var modifiers = {
 };
 
 var markerMod = {
-  markerWidth: 5,
+  markerWidth: 3,
   markerColor: "White",
   markerCap: "round",
   markerJoin: "round",
@@ -33,7 +34,6 @@ $( document ).ready(function() {
   paper.setup(document.getElementById("sketcharea"));
 
     bottomLayer = new Layer();
-    // var numLines = 100;
     var viewport = project.view.bounds;
     var verticalWidth = viewport.height;
     var horizontalWidth = viewport.width;
@@ -48,8 +48,7 @@ $( document ).ready(function() {
         to: [horizontalWidth,i],
         strokeColor: "#292929",
       })
-    }
-
+  }
     //Layer object instantiated for drawing and erasing.
     topLayer = new Layer();
     
@@ -86,17 +85,16 @@ $( document ).ready(function() {
         {
           drawPath.lastSegment.point = event.point;
         }
-        else if(event.modifiers.ctrl){
-          drawPath.la
-        }
         else{
           drawPath.add(event.point);
       }
     };
 
     sketchTool.onMouseUp = function (event) {
-      if(toolSelected == "marker")
-          drawPath.simplify(modifiers.correctionVal);
+      if(toolSelected == "marker"){
+        drawPath.simplify(modifiers.correctionVal);
+        // drawPath.flatten(100)
+      }
       // drawPath.selected = true; //Shows the physical path of the line. Used for debug purpose. 
     };
 
@@ -105,6 +103,7 @@ $( document ).ready(function() {
     var eraserPath, tmpGroup, mask;
 
     //Erasing section code
+
     eraserTool.onMouseDown = function(event){
         eraserPath = new Path({
             strokeWidth: eraserMod.eraserWidth * view.pixelRatio,

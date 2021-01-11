@@ -4,6 +4,7 @@ var commandStack = [];
 var direction = 0;
 var toolSelected="marker";
 var dottedStroke=false;
+var gridMode = true;
 
 function processCommand()
 {
@@ -27,6 +28,8 @@ function processCommand()
         case "/sl": smoothAdjust();
             break;
         case "/dl": dottedLine();
+            break;
+        case "/grid": toggleGrid();
             break;
         default: 
     }
@@ -77,8 +80,8 @@ function toolSelect()
             eraserTool.activate();
         }
             break;
-        case "compass": {
-            toolSelected = "compass"
+        case "ruler": {
+            toolSelected = "ruler"
         }
             break;
         case "protractor":{
@@ -140,4 +143,12 @@ function dottedLine(){
         dottedStroke = false;
     if(option == "true" || option == "1")
         dottedStroke = true;
+}
+
+function toggleGrid(){
+    if(option == "true" || option == "1")
+        bottomLayer.visible = true;
+    if(option == "false" || option == "0")
+        bottomLayer.visible = false;
+
 }
