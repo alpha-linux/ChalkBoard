@@ -1,8 +1,8 @@
 var clickrecord = false;
-var spacelock = false;
+var lock = false;
 var command="", option="", commandOption="";
   $(document).keydown(function(event) {
-    if (event.key == " " && clickrecord == false && spacelock==false) {
+    if (event.key == " " && clickrecord == false && lock==false) {
         openToolBar();
         clickrecord = true;
     }else{
@@ -39,14 +39,14 @@ function closeToolBar(){
 function openCommandLine(){
   document.getElementById('footer').style.height = "40px";
   document.getElementById('cli').focus();
-  spacelock = true;
+  lock = true;
 }
 
 function closeCommandLine(){
   document.getElementById('footer').style.height = "0";
   updatePrompt("");
   document.getElementById('cli').blur();
-  spacelock = false;
+  lock = false;
 }
 
 function commandexecute(){

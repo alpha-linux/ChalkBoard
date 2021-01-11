@@ -40,3 +40,5 @@ hc=<COLOR>
         : Changes the highlighter color. 
 
 sl=<NUMBER> [Range: 0 - 20] : Adjusts the line smoothness value
+
+dl=<NUMBER> [VALUE: true / false] : Sets the stroke to dotted or not

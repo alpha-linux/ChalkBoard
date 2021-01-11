@@ -3,6 +3,7 @@
 var commandStack = [];
 var direction = 0;
 var toolSelected="marker";
+var dottedStroke=false;
 
 function processCommand()
 {
@@ -19,12 +20,15 @@ function processCommand()
             break;
         case "/es": eraserOptions();
             break;
-        case "/hs": console.log("HS");
+        case "/hs": highlighterOption()            
             break;
-        case "/hc": highColor()
+        case "/hc": highlighterOption()
             break;
-        case "/sl": 
-        default: smoothAdjust();
+        case "/sl": smoothAdjust();
+            break;
+        case "/dl": dottedLine();
+            break;
+        default: 
     }
 }
 
@@ -93,23 +97,32 @@ function toolSelect()
     }
 }
 
-function highColor(){
-    switch(option){
-        case "yellow" : highlighterMod.highlighterColor = "rgba(255,255,0,0.4)";
-            break;
-        case "pink" : highlighterMod.highlighterColor = "rgba(255,20,147,0.4)";
-            break;
-        case "orange" : highlighterMod.highlighterColor = "rgba(243,149,57,0.4)";
-            break;
-        case "green" : highlighterMod.highlighterColor = "rgba(57,255,20,0.4)";
-            break;
-        case "blue" : highlighterMod.highlighterColor = "rgba(13,213,252,0.4)";
-            break; 
-        case "red" : highlighterMod.highlighterColor = "rgba(251,43,17,0.4)";
-            break;
-        case "white" : highlighterMod.highlighterColor = "rgba(255,255,255,0.4)";
-            break;
-        default:
+
+function highlighterOption(){
+    if(command == "/hs"){
+        option = parseFloat(option);
+        if(option == 5 || option == 15 || option == 25 || option == 35)
+            highlighterMod.highlighterWidth = option;
+        else
+            console.log("ERROR")
+    }else{
+        switch(option){
+            case "yellow" : highlighterMod.highlighterColor = "rgba(255,255,0,0.4)";
+                break;
+            case "pink" : highlighterMod.highlighterColor = "rgba(255,20,147,0.4)";
+                break;
+            case "orange" : highlighterMod.highlighterColor = "rgba(243,149,57,0.4)";
+                break;
+            case "green" : highlighterMod.highlighterColor = "rgba(57,255,20,0.4)";
+                break;
+            case "blue" : highlighterMod.highlighterColor = "rgba(13,213,252,0.4)";
+                break; 
+            case "red" : highlighterMod.highlighterColor = "rgba(251,43,17,0.4)";
+                break;
+            case "white" : highlighterMod.highlighterColor = "rgba(255,255,255,0.4)";
+                break;
+            default:
+        }
     }
 }
 
@@ -120,4 +133,11 @@ function smoothAdjust()
         modifiers.correctionVal = option;
     else
         console.log("ERROR")
+}
+
+function dottedLine(){
+    if(option == "false" || option == "0") 
+        dottedStroke = false;
+    if(option == "true" || option == "1")
+        dottedStroke = true;
 }

@@ -22,7 +22,7 @@ var eraserMod = {
 }
 
 var highlighterMod = {
-  highlighterWidth: 25,
+  highlighterWidth: 35,
   highlighterColor: "rgba(255,255,0,0.4)",
   highlighterCap: "square",
   highlighterJoin: "milter",
@@ -42,30 +42,42 @@ $( document ).ready(function() {
 
     //Drawing section code
     sketchTool.onMouseDown = function (event) {
-      if(toolSelected == "marker"){
-        drawPath = new Path({
-          strokeColor: markerMod.markerColor,
-          strokeWidth: markerMod.markerWidth * view.pixelRatio,
-          strokeCap: markerMod.markerCap,
-          strokeJoin: markerMod.markerJoin,
-        });
-      }else if(toolSelected == "high"){
-        drawPath = new Path({
-          strokeWidth: highlighterMod.highlighterWidth,
-          strokeColor: highlighterMod.highlighterColor,
-          strokeCap: highlighterMod.highlighterCap,
-          storkeJoin: highlighterMod.highlighterJoin,
-        });
-      }
-   
+        closeCommandLine();
+        if(toolSelected == "marker"){
+          drawPath = new Path({
+            strokeColor: markerMod.markerColor,
+            strokeWidth: markerMod.markerWidth * view.pixelRatio,
+            strokeCap: markerMod.markerCap,
+            strokeJoin: markerMod.markerJoin,
+          });
+          if(dottedStroke == true)
+            drawPath.dashArray = [10,12];
+          drawPath.add(event.point, event.point);
+        }else if(toolSelected == "high"){
+          drawPath = new Path({
+            strokeWidth: highlighterMod.highlighterWidth,
+            strokeColor: highlighterMod.highlighterColor,
+            strokeCap: highlighterMod.highlighterCap,
+            storkeJoin: highlighterMod.highlighterJoin,
+          });
+        }
     };
 
     sketchTool.onMouseDrag = function (event) {
-      drawPath.add(event.point);
+        if(event.modifiers.shift)
+        {
+          drawPath.lastSegment.point = event.point;
+        }
+        else if(event.modifiers.ctrl){
+          drawPath.la
+        }
+        else{
+          drawPath.add(event.point);
+      }
     };
 
     sketchTool.onMouseUp = function (event) {
-      if(toolSelect == "marker")
+      if(toolSelected == "marker")
           drawPath.simplify(modifiers.correctionVal);
       // drawPath.selected = true; //Shows the physical path of the line. Used for debug purpose. 
     };
@@ -159,12 +171,14 @@ $( document ).ready(function() {
           mask.remove();
     };
     $(document).keypress(function (event){
-        if(event.key == "e") {
+        if(event.key == "e" && lock == false) {
           eraserTool.activate();
         }
-        else if(event.key == "d") {
+        else if(event.key == "d" && lock == false) {
           sketchTool.activate();
         }
     });
+
+
 });
 
