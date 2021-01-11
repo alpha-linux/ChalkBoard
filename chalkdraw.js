@@ -32,6 +32,24 @@ $( document ).ready(function() {
   paper.install(window);
   paper.setup(document.getElementById("sketcharea"));
 
+    bottomLayer = new Layer();
+    // var numLines = 100;
+    var viewport = project.view.bounds;
+    var verticalWidth = viewport.height;
+    var horizontalWidth = viewport.width;
+    for(var i=1;i<viewport.width;i += 27.95){
+      new Path.Line ({
+        from: [i,0],
+        to: [i,verticalWidth],
+        strokeColor: "#292929",
+      });
+      new Path.Line({
+        from: [0,i],
+        to: [horizontalWidth,i],
+        strokeColor: "#292929",
+      })
+    }
+
     //Layer object instantiated for drawing and erasing.
     topLayer = new Layer();
     
