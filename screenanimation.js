@@ -79,9 +79,10 @@ function historyRecall(event){
     else
       updatePrompt("");
   } 
-
 }
 
 function updatePrompt(command){
   document.getElementById('cli').value = command;
+  setTimeout(function(){document.getElementById('cli').setSelectionRange(command.length,command.length)},0)
+
 }

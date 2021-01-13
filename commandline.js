@@ -4,7 +4,6 @@ var commandStack = [];
 var direction = 0;
 var toolSelected="marker";
 var dottedStroke=false;
-var gridMode = true;
 
 function processCommand()
 {

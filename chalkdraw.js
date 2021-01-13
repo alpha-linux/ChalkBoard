@@ -17,7 +17,7 @@ var markerMod = {
 
 var eraserMod = {
   eraserWidth: 80,
-  eraserColor: "white",
+  eraserColor: "rgb(22, 22, 22)",
   eraserCap: "round",
   eraserJoin: "round",
 }
@@ -33,6 +33,7 @@ $( document ).ready(function() {
   paper.install(window);
   paper.setup(document.getElementById("sketcharea"));
 
+   
     bottomLayer = new Layer();
     var viewport = project.view.bounds;
     var verticalWidth = viewport.height;
@@ -51,7 +52,7 @@ $( document ).ready(function() {
   }
     //Layer object instantiated for drawing and erasing.
     topLayer = new Layer();
-    
+
     //A Tool of object of the class paper.js, used for drawing 
     sketchTool = new Tool();
     sketchTool.minDistance = 5;
@@ -93,7 +94,6 @@ $( document ).ready(function() {
     sketchTool.onMouseUp = function (event) {
       if(toolSelected == "marker"){
         drawPath.simplify(modifiers.correctionVal);
-        // drawPath.flatten(100)
       }
       // drawPath.selected = true; //Shows the physical path of the line. Used for debug purpose. 
     };
