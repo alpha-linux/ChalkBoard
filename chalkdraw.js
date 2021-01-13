@@ -4,6 +4,7 @@ var bottomLayer;
 var topLayer;
 var eraserTool;
 var sketchTool;
+var pointMode = true;
 var modifiers = {
   correctionVal: 8,
 };
@@ -93,6 +94,14 @@ $( document ).ready(function() {
 
     sketchTool.onMouseUp = function (event) {
       if(toolSelected == "marker"){
+        if(pointMode == true && event.key.modifiers){
+          var pointCircle = new Path.Circle({
+            center: event.point,
+            radius: 6
+          })
+          pointCircle.strokeColor = '#49baeb'
+          pointCircle.fillColor = "#87ceeb"
+        }
         drawPath.simplify(modifiers.correctionVal);
       }
       // drawPath.selected = true; //Shows the physical path of the line. Used for debug purpose. 

@@ -52,7 +52,7 @@ function markerOptions(){
         markerMod.markerColor = option;
 }
 
-//The eraser function adjusts the the size of the eraser
+//The eraserOptions function adjusts the the size of the eraser
 function eraserOptions(){
     option = parseInt(option);
     if(option >=5 && option <= 10)
@@ -61,6 +61,9 @@ function eraserOptions(){
         console.log("Error in range")
 }
 
+//The toolSelect fucntion lets the user switch between the various avaliable tools.
+//As of Now the functionality is limited to the marker, highlighter and the eraser. To use
+//the scale feature, user can normally draw while holding the shift key.
 function toolSelect()
 {
     switch(option){
