@@ -51,6 +51,8 @@ $( document ).ready(function() {
         strokeColor: "#292929",
       })
   }
+  bottomLayer.visible = false;
+
     //Layer object instantiated for drawing and erasing.
     topLayer = new Layer();
 
@@ -114,6 +116,7 @@ $( document ).ready(function() {
     //Erasing section code
 
     eraserTool.onMouseDown = function(event){
+      closeCommandLine();
         eraserPath = new Path({
             strokeWidth: eraserMod.eraserWidth * view.pixelRatio,
             strokeCap: eraserMod.eraserCap,    

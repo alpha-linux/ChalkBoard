@@ -34,7 +34,7 @@ function processCommand()
     }
 }
 
-//This fucntion clears the sketch area of all the markings
+//This function clears the sketch area of all the markings
 function clearCanvas(){
     topLayer.removeChildren();
 }
@@ -61,7 +61,7 @@ function eraserOptions(){
         console.log("Error in range")
 }
 
-//The toolSelect fucntion lets the user switch between the various avaliable tools.
+//The toolSelect function lets the user switch between the various available tools.
 //As of Now the functionality is limited to the marker, highlighter and the eraser. To use
 //the scale feature, user can normally draw while holding the shift key.
 function toolSelect()
