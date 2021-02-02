@@ -4,7 +4,7 @@ var bottomLayer;
 var topLayer;
 var eraserTool;
 var sketchTool;
-var pointMode = true;
+var pointMode = false;
 var modifiers = {
   correctionVal: 8,
 };
@@ -94,7 +94,7 @@ $( document ).ready(function() {
 
     sketchTool.onMouseUp = function (event) {
       if(toolSelected == "marker"){
-        if(pointMode == true && event.key.modifiers){
+        if(pointMode == true){
           var pointCircle = new Path.Circle({
             center: event.point,
             radius: 6
