@@ -14,9 +14,10 @@ tool=<TYPE>
                 -> compass
                 -> protractor
                 -> ruler
+                -> laser
                 -> selection
 
-        : The tool command lets the user choose a perticualar tool to be 
+        : The tool command lets the user choose a particular tool to be 
           used in the sketching area.
 
 ms=<NUMBER> [Range: 0.5 - 10] : Adjusts the marker's tip size

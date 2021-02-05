@@ -1,13 +1,13 @@
-var clickrecord = false;
+var clickRecord = false;
 var lock = false;
 var command="", option="", commandOption="";
   $(document).keydown(function(event) {
-    if (event.key == " " && clickrecord == false && lock==false) {
+    if (event.key == " " && clickRecord == false && lock==false) {
         openToolBar();
-        clickrecord = true;
+        clickRecord = true;
     }else{
       closeToolBar();
-      clickrecord = false;
+      clickRecord = false;
     }
   });
   
@@ -24,7 +24,7 @@ var command="", option="", commandOption="";
   $(document).on("keydown", ":input:not(textarea)", function(event){
     if(event.key == "Enter"){
       event.preventDefault();
-      commandexecute();
+      commandExecute();
     }
   });
 
@@ -49,7 +49,7 @@ function closeCommandLine(){
   lock = false;
 }
 
-function commandexecute(){
+function commandExecute(){
   commandStack.push(document.getElementById("cli").value);
   direction = commandStack.length;
   if(commandStack[direction -1].includes("=")){

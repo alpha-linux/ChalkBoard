@@ -5,15 +5,21 @@ var topLayer;
 var eraserTool;
 var sketchTool;
 var pointMode = false;
-var modifiers = {
-  correctionVal: 8,
-};
 
 var markerMod = {
   markerWidth: 3,
-  markerColor: "White",
+  markerColor: "white",
   markerCap: "round",
   markerJoin: "round",
+}
+
+var laserMod = {
+  laserWidth: 3,
+  laserColor: "rgba(233,88,88,1)",
+  laserHalo: "red",
+  laserHaloRadius: 8,
+  laserPoint: "round",
+  laserJoin: "round"
 }
 
 var eraserMod = {
@@ -91,6 +97,7 @@ $( document ).ready(function() {
         }
         else{
           drawPath.add(event.point);
+          drawPath.smooth();
       }
     };
 
@@ -104,7 +111,6 @@ $( document ).ready(function() {
           pointCircle.strokeColor = '#49baeb'
           pointCircle.fillColor = "#87ceeb"
         }
-        drawPath.simplify(modifiers.correctionVal);
       }
       // drawPath.selected = true; //Shows the physical path of the line. Used for debug purpose. 
     };
@@ -115,7 +121,7 @@ $( document ).ready(function() {
 
     //Erasing section code
 
-    eraserTool.onMouseDown = function(event){
+    eraserTool.onMouseDown = function(){
       closeCommandLine();
         eraserPath = new Path({
             strokeWidth: eraserMod.eraserWidth * view.pixelRatio,
@@ -199,12 +205,37 @@ $( document ).ready(function() {
           topLayer.addChildren(tmpGroup.removeChildren());
           mask.remove();
     };
+
+    laserTool = new Tool();
+    laserTool.onMouseDown = function () {
+      closeCommandLine();
+      laserPath = new Path({
+        strokeColor: laserMod.laserColor,
+        strokeWidth:  laserMod.laserWidth * view.pixelRatio,
+        shadowColor: laserMod.laserHalo,
+        shadowBlur: laserMod.laserHaloRadius,
+        strokeCap: laserMod.laserPoint,
+        strokeJoin: laserMod.laserJoin,
+      });
+    }
+
+    laserTool.onMouseDrag = function(event){
+      laserPath.add(event.point);
+      laserPath.smooth();
+    }
+
+    laserTool.onMouseUp = function(){
+      laserPath.removeSegments();
+    }
+
     $(document).keypress(function (event){
         if(event.key == "e" && lock == false) {
           eraserTool.activate();
         }
         else if(event.key == "d" && lock == false) {
           sketchTool.activate();
+        }else if(event.key == "l" && lock == false){
+          laserTool.activate();
         }
     });
 

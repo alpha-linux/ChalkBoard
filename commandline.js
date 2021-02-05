@@ -24,8 +24,6 @@ function processCommand()
             break;
         case "/hc": highlighterOption()
             break;
-        case "/sl": smoothAdjust();
-            break;
         case "/dl": dottedLine();
             break;
         case "/grid": toggleGrid();
@@ -90,8 +88,9 @@ function toolSelect()
             toolSelected = "protractor"
         }
             break;
-        case "ruler":{
-            toolSelected = "ruler"
+        case "laser":{
+            toolSelected = "laser"
+            laserTool.activate();
         }
             break;
         case "selection":{
@@ -129,15 +128,6 @@ function highlighterOption(){
             default:
         }
     }
-}
-
-function smoothAdjust()
-{
-    option = parseInt(option)
-    if(option >=0 && option <= 20)
-        modifiers.correctionVal = option;
-    else
-        console.log("ERROR")
 }
 
 function dottedLine(){
