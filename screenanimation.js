@@ -28,12 +28,18 @@ var command="", option="", commandOption="";
     }
   });
 
+var buttonElementContainer = 7;
+
 function openToolBar(){
-  document.getElementById('toolbar').style.width = "2.4em";
+  document.getElementById('toolbar').style.width = "2.7em";
+  for(let i=0;i<buttonElementContainer;i++)
+    document.getElementsByClassName('tool')[i].style.width = "35px"
 }
 
 function closeToolBar(){
   document.getElementById('toolbar').style.width = "0em";
+  for(let i=0;i<buttonElementContainer;i++)
+  document.getElementsByClassName('tool')[i].style.width = "0px"
 }
 
 function openCommandLine(){
