@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- METADATA -->
+
+    <meta charset="UTF-8">
+    <meta charset="author" content="Ishan Banerjee" />
+    <meta name="description" content="ChalkBoard sketch page" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ChalkBoard</title>
+
+    <!-- EXTERNAL LIBRARIES -->
+
+    <!-- Paper.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.12.15/paper-full.min.js"
+        integrity="sha512-ovjLI1ZcZe6bw+ImQ21r+sv8q/Vwob2kq7tFidK6E1LWfi0T4uobbmpfEU1//a9h9o5Kkt+MnMWf6rWlg0EiMw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Google font for Ubuntu Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet" />
+
+    <!-- INTERNAL SCRIPTS -->
+
+    <script src="../JavaScript/draw.js"></script>
+
+    <!-- STYLING -->
+    <link rel="stylesheet" href="../CSS/style.css">
+</head>
+
+<body>
+    <!-- Sketching Area -->
+    <canvas id="sketcharea" resize> </canvas>
+
+    <!-- UI for command line interface -->
+    <div id="footer">
+        <form id="clicontainer" onkeydown="return event.key != 'Enter';">
+            <input type="text" id="cli" spellcheck="false" autocomplete="off">
+        </form>
+    </div>
+</body>
+
+</html>
