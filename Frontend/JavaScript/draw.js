@@ -8,7 +8,7 @@ var gridLayer = 'gridLayer'
 var defaultLayer = 'defaultLayer'
 var debug = false;
 var dottedStroke = false;
-var toolSelected = 'marker';
+var toolSelected = 'highlighter';
 
 var lastIndex = -1;
 var lastEvent;
@@ -28,7 +28,7 @@ var Laser = {
     laserWidth: 3,
     laserColor: "rgba(233,88,88,1)",
     laserHalo: "red",
-    laserHaloRadius: 8,
+    laserHaloRadius: 12,
     laserPoint: "round",
     laserJoin: "round"
 }
@@ -119,6 +119,15 @@ $(document).ready(function () {
                 strokeCap: Highlighter.highlighterCap,
                 storkeJoin: Highlighter.highlighterJoin
             });
+        } else if (toolSelected == 'laser') {
+            drawPath = new Path({
+                strokeColor: Laser.laserColor,
+                strokeWidth: Laser.laserWidth * view.pixelRatio,
+                shadowColor: Laser.laserHalo,
+                shadowBlur: Laser.laserHaloRadius,
+                strokeCap: Laser.laserPoint,
+                strokeJoin: Laser.laserJoin,
+            });
         }
 
         let p = paper.project.layers[defaultLayer].addChild(drawPath);
@@ -146,8 +155,11 @@ $(document).ready(function () {
         if (lastIndex == -1)
             return
 
-        if (toolSelected == "marker")
-        paper.project.layers[defaultLayer].children[lastIndex].simplify(Marker.markerSimplificationFactor);
+        if (toolSelected == 'marker')
+            paper.project.layers[defaultLayer].children[lastIndex].simplify(Marker.markerSimplificationFactor);
+
+        if (toolSelected == 'laser')
+            paper.project.layers[defaultLayer].children[lastIndex].removeSegments();
         lastIndex = -1;
     }
 
