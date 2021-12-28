@@ -7,20 +7,24 @@
 var gridLayer = 'gridLayer'
 var defaultLayer = 'defaultLayer'
 var debug = false;
+var dottedStroke = false;
+var toolSelected = 'marker';
 
 var lastIndex = -1;
+var lastEvent;
 
 
 // CLASSES FOR TOOLS
 
-var MarkerModule = {
+var Marker = {
     markerWidth: 3,
     markerColor: "white",
     markerCap: "round",
     markerJoin: "round",
+    markerSimplificationFactor: 8
 }
 
-var LaserModule = {
+var Laser = {
     laserWidth: 3,
     laserColor: "rgba(233,88,88,1)",
     laserHalo: "red",
@@ -29,18 +33,30 @@ var LaserModule = {
     laserJoin: "round"
 }
 
-var EraserModule = {
+var Eraser = {
     eraserWidth: 80,
     eraserColor: "rgb(22, 22, 22)",
     eraserCap: "round",
     eraserJoin: "round",
 }
 
-var HighlighterModule = {
+var Highlighter = {
     highlighterWidth: 35,
     highlighterColor: "rgba(255,255,0,0.4)",
     highlighterCap: "square",
     highlighterJoin: "milter",
+}
+
+
+// FEATURES
+
+function clearScreen() {
+    paper.project.layers[defaultLayer].removeChildren();
+    paper.view.draw()
+}
+
+function erasingCleanUp(index) {
+    paper.project.layers[defaultLayer].children[index].blendMode = 'destination-out';
 }
 
 // READY DOCUMENT
@@ -74,7 +90,7 @@ $(document).ready(function () {
     });
 
     layer = new paper.Layer();
-    layer.name = "defaultLayer"
+    layer.name = 'defaultLayer'
 
     paper.project.layers[defaultLayer].activate()
 
@@ -85,12 +101,25 @@ $(document).ready(function () {
         if (debug)
             console.log("Drawing Start");
 
-        var drawPath = new paper.Path({
-            strokeColor: MarkerModule.markerColor,
-            strokeWidth: MarkerModule.markerWidth * view.pixelRatio,
-            strokeCap: MarkerModule.markerCap,
-            strokeJoin: MarkerModule.markerJoin,
-        });
+        var drawPath;
+        if (toolSelected == 'marker') {
+            drawPath = new paper.Path({
+                strokeColor: Marker.markerColor,
+                strokeWidth: Marker.markerWidth * view.pixelRatio,
+                strokeCap: Marker.markerCap,
+                strokeJoin: Marker.markerJoin,
+            });
+
+            if (dottedStroke)
+                drawPath.dashArray = [10, 12];
+        } else if (toolSelected == 'highlighter') {
+            drawPath = new Path({
+                strokeWidth: Highlighter.highlighterWidth,
+                strokeColor: Highlighter.highlighterColor,
+                strokeCap: Highlighter.highlighterCap,
+                storkeJoin: Highlighter.highlighterJoin
+            });
+        }
 
         let p = paper.project.layers[defaultLayer].addChild(drawPath);
         lastIndex = p.index;
@@ -104,6 +133,9 @@ $(document).ready(function () {
         if (lastIndex == -1)
             return
         paper.project.layers[defaultLayer].children[lastIndex].add({ x: ev.center.x, y: ev.center.y });
+
+        paper.project.layers[defaultLayer].children[lastIndex].smooth()
+
     }
 
     const endDraw = (ev) => {
@@ -113,7 +145,9 @@ $(document).ready(function () {
 
         if (lastIndex == -1)
             return
-        paper.project.layers[defaultLayer].children[lastIndex].simplify(8);
+
+        if (toolSelected == "marker")
+        paper.project.layers[defaultLayer].children[lastIndex].simplify(Marker.markerSimplificationFactor);
         lastIndex = -1;
     }
 
@@ -125,10 +159,10 @@ $(document).ready(function () {
             console.log("Erasing Start")
 
         var erasePath = new paper.Path({
-            strokeWidth: EraserModule.eraserWidth * view.pixelRatio,
-            strokeCap: EraserModule.eraserCap,
-            strokeJoin: EraserModule.eraserJoin,
-            strokeColor: EraserModule.eraserColor,
+            strokeWidth: Eraser.eraserWidth * view.pixelRatio,
+            strokeCap: Eraser.eraserCap,
+            strokeJoin: Eraser.eraserJoin,
+            strokeColor: Eraser.eraserColor,
         });
 
         let p = paper.project.layers[defaultLayer].addChild(erasePath);
@@ -148,18 +182,14 @@ $(document).ready(function () {
 
     const endErase = (en) => {
 
-        if(debug)
+        if (debug)
             console.log("Erasing End")
-        
-            if (lastIndex == -1)
-            return
-        
-        earasingCleanUp(lastIndex);
-        lastIndex = -1;
-    }
 
-    function earasingCleanUp(index){
-        paper.project.layers[defaultLayer].children[index].blendMode = 'destination-out';
+        if (lastIndex == -1)
+            return
+
+        erasingCleanUp(lastIndex);
+        lastIndex = -1;
     }
 
 });
