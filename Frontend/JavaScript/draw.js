@@ -6,7 +6,7 @@
 // DEFAULT
 var gridLayer = 'gridLayer'
 var defaultLayer = 'defaultLayer'
-var debug = true;
+var debug = false;
 
 var lastIndex = -1;
 
@@ -55,20 +55,26 @@ $(document).ready(function () {
     // Handle touch input
     touch.on("hammer.input", function (ev) {
 
-        if (debug)
-            console.log(ev);
-
         if (ev.isFirst) {
-            startDraw(ev);
+            if (ev.srcEvent.shiftKey)
+                startErase(ev);
+            else
+                startDraw(ev);
         } else if (ev.isFinal) {
-            endDraw(ev);
+            if (ev.srcEvent.shiftKey)
+                endErase(ev);
+            else
+                endDraw(ev);
         } else {
-            middleDraw(ev);
+            if (ev.srcEvent.shiftKey)
+                middleErase(ev);
+            else
+                middleDraw(ev);
         }
     });
 
     layer = new paper.Layer();
-    layer.name ="defaultLayer"
+    layer.name = "defaultLayer"
 
     paper.project.layers[defaultLayer].activate()
 
@@ -77,7 +83,7 @@ $(document).ready(function () {
     const startDraw = (ev, properties) => {
 
         if (debug)
-            console.log("Drawing : ", ev.center.x, ev.center.y);
+            console.log("Drawing Start");
 
         var drawPath = new paper.Path({
             strokeColor: MarkerModule.markerColor,
@@ -91,18 +97,71 @@ $(document).ready(function () {
     }
 
     const middleDraw = (ev) => {
+
+        if (debug)
+            console.log("Drawing...")
+
         if (lastIndex == -1)
             return
         paper.project.layers[defaultLayer].children[lastIndex].add({ x: ev.center.x, y: ev.center.y });
-        return
     }
 
     const endDraw = (ev) => {
-        if(lastIndex == -1)
+
+        if (debug)
+            console.log("Drawing End")
+
+        if (lastIndex == -1)
             return
         paper.project.layers[defaultLayer].children[lastIndex].simplify(8);
         lastIndex = -1;
     }
+
+    // FUNCTIONS RELATED TO ERASING
+
+    const startErase = (ev) => {
+
+        if (debug)
+            console.log("Erasing Start")
+
+        var erasePath = new paper.Path({
+            strokeWidth: EraserModule.eraserWidth * view.pixelRatio,
+            strokeCap: EraserModule.eraserCap,
+            strokeJoin: EraserModule.eraserJoin,
+            strokeColor: EraserModule.eraserColor,
+        });
+
+        let p = paper.project.layers[defaultLayer].addChild(erasePath);
+        lastIndex = p.index;
+    }
+
+    const middleErase = (ev) => {
+
+        if (debug)
+            console.log("Erasing...")
+
+        if (lastIndex == -1)
+            return
+
+        paper.project.layers[defaultLayer].children[lastIndex].add({ x: ev.center.x, y: ev.center.y });
+    }
+
+    const endErase = (en) => {
+
+        if(debug)
+            console.log("Erasing End")
+        
+            if (lastIndex == -1)
+            return
+        
+        earasingCleanUp(lastIndex);
+        lastIndex = -1;
+    }
+
+    function earasingCleanUp(index){
+        paper.project.layers[defaultLayer].children[index].blendMode = 'destination-out';
+    }
+
 });
 
 
