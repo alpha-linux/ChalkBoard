@@ -102,25 +102,18 @@ $(document).ready(function () {
             console.log("Drawing Start");
 
         var drawPath;
-        if (toolSelected == 'marker') {
-            drawPath = new paper.Path({
-                strokeColor: Marker.markerColor,
-                strokeWidth: Marker.markerWidth * view.pixelRatio,
-                strokeCap: Marker.markerCap,
-                strokeJoin: Marker.markerJoin,
-            });
 
-            if (dottedStroke)
-                drawPath.dashArray = [10, 12];
-        } else if (toolSelected == 'highlighter') {
+        if (toolSelected == 'highlighter') {
             drawPath = new Path({
                 strokeWidth: Highlighter.highlighterWidth,
                 strokeColor: Highlighter.highlighterColor,
                 strokeCap: Highlighter.highlighterCap,
                 storkeJoin: Highlighter.highlighterJoin
             });
-        } else if (toolSelected == 'laser') {
-            drawPath = new Path({
+        }
+
+        else if (toolSelected == 'laser') {
+            drawPath = new paper.Path({
                 strokeColor: Laser.laserColor,
                 strokeWidth: Laser.laserWidth * view.pixelRatio,
                 shadowColor: Laser.laserHalo,
@@ -130,11 +123,32 @@ $(document).ready(function () {
             });
         }
 
+        else if(toolSelected == 'eraser'){
+            drawPath = new paper.Path({
+                strokeWidth: Eraser.eraserWidth * view.pixelRatio,
+                strokeCap: Eraser.eraserCap,
+                strokeJoin: Eraser.eraserJoin,
+                strokeColor: Eraser.eraserColor,
+            })
+        }
+
+        else {
+            drawPath = new paper.Path({
+                strokeColor: Marker.markerColor,
+                strokeWidth: Marker.markerWidth * view.pixelRatio,
+                strokeCap: Marker.markerCap,
+                strokeJoin: Marker.markerJoin,
+            });
+
+            if (dottedStroke)
+                drawPath.dashArray = [10, 12];
+        }
+
         let p = paper.project.layers[defaultLayer].addChild(drawPath);
         lastIndex = p.index;
     }
 
-    const middleDraw = (ev) => {
+    function middleDraw(ev) {
 
         if (debug)
             console.log("Drawing...")
@@ -147,7 +161,7 @@ $(document).ready(function () {
 
     }
 
-    const endDraw = (ev) => {
+    function endDraw(ev) {
 
         if (debug)
             console.log("Drawing End")
@@ -181,7 +195,7 @@ $(document).ready(function () {
         lastIndex = p.index;
     }
 
-    const middleErase = (ev) => {
+    function middleErase(ev) {
 
         if (debug)
             console.log("Erasing...")
@@ -192,7 +206,7 @@ $(document).ready(function () {
         paper.project.layers[defaultLayer].children[lastIndex].add({ x: ev.center.x, y: ev.center.y });
     }
 
-    const endErase = (en) => {
+    function endErase(en) {
 
         if (debug)
             console.log("Erasing End")
