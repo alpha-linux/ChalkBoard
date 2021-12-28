@@ -72,20 +72,18 @@ $(document).ready(function () {
     touch.on("hammer.input", function (ev) {
 
         if (ev.isFirst) {
-            if (ev.srcEvent.shiftKey)
-                startErase();
-            else
+            if (ev.srcEvent.shiftKey) {
+                toolSelected = 'eraser'
                 startDraw();
+            }
+            else {
+                toolSelected = 'marker'
+                startDraw();
+            }
         } else if (ev.isFinal) {
-            if (ev.srcEvent.shiftKey)
-                endErase(ev);
-            else
-                endDraw(ev);
+            endDraw(ev);
         } else {
-            if (ev.srcEvent.shiftKey)
-                middleErase(ev);
-            else
-                middleDraw(ev);
+            middleDraw(ev);
         }
     });
 
@@ -123,7 +121,7 @@ $(document).ready(function () {
             });
         }
 
-        else if(toolSelected == 'eraser'){
+        else if (toolSelected == 'eraser') {
             drawPath = new paper.Path({
                 strokeWidth: Eraser.eraserWidth * view.pixelRatio,
                 strokeCap: Eraser.eraserCap,
@@ -157,7 +155,8 @@ $(document).ready(function () {
             return
         paper.project.layers[defaultLayer].children[lastIndex].add({ x: ev.center.x, y: ev.center.y });
 
-        paper.project.layers[defaultLayer].children[lastIndex].smooth()
+        if (toolSelected != 'eraser')
+            paper.project.layers[defaultLayer].children[lastIndex].smooth()
 
     }
 
@@ -174,47 +173,9 @@ $(document).ready(function () {
 
         if (toolSelected == 'laser')
             paper.project.layers[defaultLayer].children[lastIndex].removeSegments();
-        lastIndex = -1;
-    }
 
-    // FUNCTIONS RELATED TO ERASING
-
-    function startErase() {
-
-        if (debug)
-            console.log("Erasing Start")
-
-        var erasePath = new paper.Path({
-            strokeWidth: Eraser.eraserWidth * view.pixelRatio,
-            strokeCap: Eraser.eraserCap,
-            strokeJoin: Eraser.eraserJoin,
-            strokeColor: Eraser.eraserColor,
-        });
-
-        let p = paper.project.layers[defaultLayer].addChild(erasePath);
-        lastIndex = p.index;
-    }
-
-    function middleErase(ev) {
-
-        if (debug)
-            console.log("Erasing...")
-
-        if (lastIndex == -1)
-            return
-
-        paper.project.layers[defaultLayer].children[lastIndex].add({ x: ev.center.x, y: ev.center.y });
-    }
-
-    function endErase(en) {
-
-        if (debug)
-            console.log("Erasing End")
-
-        if (lastIndex == -1)
-            return
-
-        erasingCleanUp(lastIndex);
+        if (toolSelected == 'eraser')
+            erasingCleanUp(lastIndex);
         lastIndex = -1;
     }
 
