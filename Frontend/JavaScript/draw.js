@@ -57,9 +57,9 @@ $(document).ready(function () {
 
         if (ev.isFirst) {
             if (ev.srcEvent.shiftKey)
-                startErase(ev);
+                startErase();
             else
-                startDraw(ev);
+                startDraw();
         } else if (ev.isFinal) {
             if (ev.srcEvent.shiftKey)
                 endErase(ev);
@@ -80,7 +80,7 @@ $(document).ready(function () {
 
     // FUNCTIONS RELATED TO DRAWING
 
-    const startDraw = (ev, properties) => {
+    function startDraw() {
 
         if (debug)
             console.log("Drawing Start");
@@ -119,7 +119,7 @@ $(document).ready(function () {
 
     // FUNCTIONS RELATED TO ERASING
 
-    const startErase = (ev) => {
+    function startErase() {
 
         if (debug)
             console.log("Erasing Start")
