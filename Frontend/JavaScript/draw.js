@@ -4,11 +4,14 @@
  */
 
 // DEFAULT
+
 var gridLayer = 'gridLayer'
 var defaultLayer = 'defaultLayer'
 var debug = false;
 var dottedStroke = false;
-var toolSelected = 'highlighter';
+var toolSelected = 'marker';
+
+// TRACKING
 
 var lastIndex = -1;
 var lastEvent;
@@ -37,14 +40,14 @@ var Eraser = {
     eraserWidth: 80,
     eraserColor: "rgb(22, 22, 22)",
     eraserCap: "round",
-    eraserJoin: "round",
+    eraserJoin: "round"
 }
 
 var Highlighter = {
     highlighterWidth: 35,
     highlighterColor: "rgba(255,255,0,0.4)",
     highlighterCap: "square",
-    highlighterJoin: "milter",
+    highlighterJoin: "milter"
 }
 
 
@@ -52,7 +55,7 @@ var Highlighter = {
 
 function clearScreen() {
     paper.project.layers[defaultLayer].removeChildren();
-    paper.view.draw()
+    paper.view.draw();
 }
 
 function erasingCleanUp(index) {
@@ -94,6 +97,9 @@ $(document).ready(function () {
 
     // FUNCTIONS FOR HANDLING DRAWING/ERASING
 
+    /**
+     * @description Handles drawing and erasing fucntionlailties
+     */
     function startDraw() {
 
         if (debug)
@@ -108,7 +114,9 @@ $(document).ready(function () {
                 strokeCap: Highlighter.highlighterCap,
                 storkeJoin: Highlighter.highlighterJoin
             });
-            console.log("Highlighter Mode...");
+
+            if (debug)
+                console.log("Highlighter Mode...");
         }
 
         else if (toolSelected == 'laser') {
@@ -120,7 +128,9 @@ $(document).ready(function () {
                 strokeCap: Laser.laserPoint,
                 strokeJoin: Laser.laserJoin,
             });
-            console.log("Laser Mode...")
+
+            if (debug)
+                console.log("Laser Mode...")
         }
 
         else if (toolSelected == 'eraser') {
@@ -129,7 +139,10 @@ $(document).ready(function () {
                 strokeCap: Eraser.eraserCap,
                 strokeJoin: Eraser.eraserJoin,
                 strokeColor: Eraser.eraserColor,
-            })
+            });
+
+            if (debug)
+                console.log("Eraser Mode...")
         }
 
         else {
@@ -142,6 +155,9 @@ $(document).ready(function () {
 
             if (dottedStroke)
                 drawPath.dashArray = [10, 12];
+
+            if(debug)
+                console.log("Marker Mode...")
         }
 
         let p = paper.project.layers[defaultLayer].addChild(drawPath);
@@ -173,10 +189,10 @@ $(document).ready(function () {
         if (toolSelected == 'marker')
             paper.project.layers[defaultLayer].children[lastIndex].simplify(Marker.markerSimplificationFactor);
 
-        if (toolSelected == 'laser')
+        else if (toolSelected == 'laser')
             paper.project.layers[defaultLayer].children[lastIndex].removeSegments();
 
-        if (toolSelected == 'eraser')
+        else if (toolSelected == 'eraser')
             erasingCleanUp(lastIndex);
         lastIndex = -1;
     }
