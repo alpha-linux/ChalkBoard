@@ -92,7 +92,7 @@ $(document).ready(function () {
 
     paper.project.layers[defaultLayer].activate()
 
-    // FUNCTIONS RELATED TO DRAWING
+    // FUNCTIONS FOR HANDLING DRAWING/ERASING
 
     function startDraw() {
 
@@ -108,6 +108,7 @@ $(document).ready(function () {
                 strokeCap: Highlighter.highlighterCap,
                 storkeJoin: Highlighter.highlighterJoin
             });
+            console.log("Highlighter Mode...");
         }
 
         else if (toolSelected == 'laser') {
@@ -119,6 +120,7 @@ $(document).ready(function () {
                 strokeCap: Laser.laserPoint,
                 strokeJoin: Laser.laserJoin,
             });
+            console.log("Laser Mode...")
         }
 
         else if (toolSelected == 'eraser') {
