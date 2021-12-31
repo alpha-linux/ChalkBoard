@@ -8,14 +8,14 @@
 var gridLayer = 'gridLayer'
 var defaultLayer = 'defaultLayer'
 var debug = false;
-var dottedStroke = false;
+var dashedStroke = false;
 var toolSelected = 'marker';
 
 // TRACKING
 
 var lastIndex = -1;
 var lastEvent;
-
+var prevTool;
 
 // CLASSES FOR TOOLS
 
@@ -76,17 +76,29 @@ $(document).ready(function () {
 
         if (ev.isFirst) {
             if (ev.srcEvent.shiftKey) {
+                prevTool = toolSelected
                 toolSelected = 'eraser'
                 startDraw();
             }
             else {
-                toolSelected = 'marker'
                 startDraw();
             }
         } else if (ev.isFinal) {
             endDraw(ev);
         } else {
             middleDraw(ev);
+        }
+    });
+
+    $(document).keypress(function (ev) {
+        if (ev.key == 'h'){
+            toolSelected = 'highlighter';
+        }
+        else if (ev.key == 'l') {
+            toolSelected = 'laser';
+        }
+        else if(ev.key == 'd'){
+            toolSelected = 'marker';
         }
     });
 
@@ -153,10 +165,10 @@ $(document).ready(function () {
                 strokeJoin: Marker.markerJoin,
             });
 
-            if (dottedStroke)
+            if (dashedStroke)
                 drawPath.dashArray = [10, 12];
 
-            if(debug)
+            if (debug)
                 console.log("Marker Mode...")
         }
 
@@ -186,14 +198,17 @@ $(document).ready(function () {
         if (lastIndex == -1)
             return
 
-        if (toolSelected == 'marker')
+        if (toolSelected == 'marker') {
             paper.project.layers[defaultLayer].children[lastIndex].simplify(Marker.markerSimplificationFactor);
+        }
 
         else if (toolSelected == 'laser')
             paper.project.layers[defaultLayer].children[lastIndex].removeSegments();
 
-        else if (toolSelected == 'eraser')
+        else if (toolSelected == 'eraser'){
             erasingCleanUp(lastIndex);
+            toolSelected = prevTool;
+        }
         lastIndex = -1;
     }
 
