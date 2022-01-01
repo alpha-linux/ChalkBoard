@@ -5,9 +5,8 @@
 
 // DEFAULT
 
-var gridLayer = 'gridLayer'
 var defaultLayer = 'defaultLayer'
-var debug = false;
+var debug = true;
 var dashedStroke = false;
 var toolSelected = 'marker';
 
@@ -24,7 +23,7 @@ var Marker = {
     markerColor: "white",
     markerCap: "round",
     markerJoin: "round",
-    markerSimplificationFactor: 8
+    markerSimplificationFactor: 20
 }
 
 var Laser = {
@@ -63,16 +62,16 @@ function erasingCleanUp(index) {
 }
 
 // READY DOCUMENT
-$(document).ready(function () {
+$(document).ready(() => {
 
-    //Initialize Paper.js and Hammer.js
+    //Initialize Paper.js and Hammer.js .
 
     var touch = new Hammer(document.getElementById("sketcharea"))
     paper.install(window);
     paper.setup(document.getElementById("sketcharea"));
 
-    // Handle touch input
-    touch.on("hammer.input", function (ev) {
+    // Handle touch input.
+    touch.on("hammer.input", (ev) => {
 
         if (ev.isFirst) {
             if (ev.srcEvent.shiftKey) {
@@ -90,14 +89,14 @@ $(document).ready(function () {
         }
     });
 
-    $(document).keypress(function (ev) {
-        if (ev.key == 'h'){
+    $(document).keypress((ev) => {
+        if (ev.key == 'h') {
             toolSelected = 'highlighter';
         }
         else if (ev.key == 'l') {
             toolSelected = 'laser';
         }
-        else if(ev.key == 'd'){
+        else if (ev.key == 'm') {
             toolSelected = 'marker';
         }
     });
@@ -110,7 +109,7 @@ $(document).ready(function () {
     // FUNCTIONS FOR HANDLING DRAWING/ERASING
 
     /**
-     * @description Handles drawing and erasing fucntionlailties
+     * @description Handles drawing and erasing fucntionalities.
      */
     function startDraw() {
 
@@ -186,7 +185,7 @@ $(document).ready(function () {
         paper.project.layers[defaultLayer].children[lastIndex].add({ x: ev.center.x, y: ev.center.y });
 
         if (toolSelected != 'eraser')
-            paper.project.layers[defaultLayer].children[lastIndex].smooth()
+            paper.project.layers[defaultLayer].children[lastIndex].smooth('continuous')
 
     }
 
@@ -205,7 +204,7 @@ $(document).ready(function () {
         else if (toolSelected == 'laser')
             paper.project.layers[defaultLayer].children[lastIndex].removeSegments();
 
-        else if (toolSelected == 'eraser'){
+        else if (toolSelected == 'eraser') {
             erasingCleanUp(lastIndex);
             toolSelected = prevTool;
         }
