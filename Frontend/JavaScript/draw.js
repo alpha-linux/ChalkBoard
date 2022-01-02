@@ -77,13 +77,13 @@ $(document).ready(() => {
             if (ev.srcEvent.shiftKey) {
                 prevTool = toolSelected
                 toolSelected = 'eraser'
-                startDraw();
+                startDraw(ev);
             }
             else {
-                startDraw();
+                startDraw(ev);
             }
         } else if (ev.isFinal) {
-            endDraw(ev);
+            endDraw();
         } else {
             middleDraw(ev);
         }
@@ -111,7 +111,7 @@ $(document).ready(() => {
     /**
      * @description Handles drawing and erasing fucntionalities.
      */
-    function startDraw() {
+    function startDraw(ev) {
 
         if (debug)
             console.log("Drawing Start");
@@ -166,6 +166,7 @@ $(document).ready(() => {
 
             if (dashedStroke)
                 drawPath.dashArray = [10, 12];
+            drawPath.add({ x: ev.center.x, y: ev.center.y },{ x: ev.center.x, y: ev.center.y });
 
             if (debug)
                 console.log("Marker Mode...")
@@ -182,24 +183,24 @@ $(document).ready(() => {
 
         if (lastIndex == -1)
             return
-        paper.project.layers[defaultLayer].children[lastIndex].add({ x: ev.center.x, y: ev.center.y });
+
+        if (ev.srcEvent.ctrlKey)
+            paper.project.layers[defaultLayer].children[lastIndex].lastSegment.point = {x: ev.center.x, y: ev.center.y};
+        else
+            paper.project.layers[defaultLayer].children[lastIndex].add({ x: ev.center.x, y: ev.center.y });
 
         if (toolSelected != 'eraser')
             paper.project.layers[defaultLayer].children[lastIndex].smooth('continuous')
 
     }
 
-    function endDraw(ev) {
+    function endDraw() {
 
         if (debug)
             console.log("Drawing End")
 
         if (lastIndex == -1)
             return
-
-        if (toolSelected == 'marker') {
-            paper.project.layers[defaultLayer].children[lastIndex].simplify(Marker.markerSimplificationFactor);
-        }
 
         else if (toolSelected == 'laser')
             paper.project.layers[defaultLayer].children[lastIndex].removeSegments();
